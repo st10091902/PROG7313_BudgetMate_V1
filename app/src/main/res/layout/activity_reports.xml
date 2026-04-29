@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reports and Analytics"
+        android:textColor="#1E3A5F"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnBackHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="← Back to Home" />
+
+    <EditText
+        android:id="@+id/edtStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:hint="Start date (dd/MM/yyyy)"
+        android:inputType="text"
+        android:padding="12dp" />
+
+    <EditText
+        android:id="@+id/edtEndDate"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="12dp"
+        android:hint="End date (dd/MM/yyyy)"
+        android:inputType="text"
+        android:padding="12dp" />
+
+    <Button
+        android:id="@+id/btnFilterReports"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="12dp"
+        android:text="Filter Report" />
+
+    <TextView
+        android:id="@+id/txtTotalIncome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="#FFFFFF"
+        android:elevation="3dp"
+        android:padding="18dp"
+        android:text="Total Income: R0.00"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtTotalExpenses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="#FFFFFF"
+        android:elevation="3dp"
+        android:padding="18dp"
+        android:text="Total Expenses: R0.00"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtNetBalance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="#FFFFFF"
+        android:elevation="3dp"
+        android:padding="18dp"
+        android:text="Net Balance: R0.00"
+        android:textColor="#2E7D32"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtCategoryTotals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Category totals"
+        android:textSize="16sp" />
+
+</LinearLayout>

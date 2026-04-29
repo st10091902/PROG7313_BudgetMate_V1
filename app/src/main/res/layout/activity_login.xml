@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BudgetMate"
+        android:textColor="#1E3A5F"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Manage your money smarter"
+        android:textColor="#5F6F7A"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edtLoginEmail"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="36dp"
+        android:background="@android:drawable/edit_text"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:padding="12dp" />
+
+    <EditText
+        android:id="@+id/edtLoginPassword"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="14dp"
+        android:background="@android:drawable/edit_text"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="12dp" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#2E7D32"
+        android:text="Login"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/txtGoToRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Don't have an account? Register"
+        android:textColor="#1E88E5"
+        android:textSize="15sp" />
+
+</LinearLayout>
