@@ -312,7 +312,7 @@ To generate the APK:
 
 ## 🎥 Demo Video
 
-Paste final demo video link here:
+Final demo video link:
 
 ```text
 https://www.youtube.com/watch?v=LhN5oMSBW1I
