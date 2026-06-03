@@ -17,50 +17,51 @@
             android:layout_marginTop="12dp"
             android:text="← Back" />
 
-        <EditText
-            android:id="@+id/edtStartDate"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="16dp"
-            android:clickable="true"
-            android:focusable="false"
-            android:hint="Select start date"
-            android:inputType="none"
-            android:padding="12dp" />
-
-        <EditText
-            android:id="@+id/edtEndDate"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="12dp"
-            android:clickable="true"
-            android:focusable="false"
-            android:hint="Select end date"
-            android:inputType="none"
-            android:padding="12dp" />
-
-        <Button
-            android:id="@+id/btnFilter"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="12dp"
-            android:text="Filter Expenses" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Expense List"
+            android:text="Monthly Spending Goals"
             android:textColor="#1E3A5F"
             android:textSize="26sp"
             android:textStyle="bold" />
 
 
+        <EditText
+            android:id="@+id/edtMinGoal"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:hint="Minimum monthly spending goal"
+            android:inputType="numberDecimal"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/edtMaxGoal"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:hint="Maximum monthly spending goal"
+            android:inputType="numberDecimal"
+            android:padding="12dp" />
+
+        <Button
+            android:id="@+id/btnSaveMonthlyGoals"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#2E7D32"
+            android:text="Save Monthly Goals"
+            android:textColor="#FFFFFF" />
+
         <TextView
-            android:id="@+id/txtExpenseList"
+            android:id="@+id/txtGoalStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="No expenses added yet"
+            android:background="#FFFFFF"
+            android:elevation="3dp"
+            android:padding="18dp"
+            android:text="Set your monthly minimum and maximum goals."
             android:textColor="#263238"
             android:textSize="16sp" />
 

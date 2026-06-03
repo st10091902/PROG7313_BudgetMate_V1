@@ -16,6 +16,7 @@ import com.marcomarais.budgetmate.viewmodel.TransactionViewModelFactory
 import com.marcomarais.budgetmate.ui.goals.GoalsActivity
 import com.marcomarais.budgetmate.ui.reports.ReportsActivity
 import com.marcomarais.budgetmate.ui.expenses.ExpenseListActivity
+import com.marcomarais.budgetmate.ui.goals.MonthlyGoalsActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -31,6 +32,7 @@ class HomeActivity : AppCompatActivity() {
         val btnGoals = findViewById<Button>(R.id.btnGoals)
         val btnReports = findViewById<Button>(R.id.btnReports)
         val btnExpenseList = findViewById<Button>(R.id.btnExpenseList)
+        val btnMonthlyGoals = findViewById<Button>(R.id.btnMonthlyGoals)
 
         val database = BudgetMateDatabase.getDatabase(this)
         val repository = TransactionRepository(database.transactionDao())
@@ -71,6 +73,10 @@ class HomeActivity : AppCompatActivity() {
 
         btnExpenseList.setOnClickListener {
             startActivity(Intent(this, ExpenseListActivity::class.java))
+        }
+
+        btnMonthlyGoals.setOnClickListener {
+            startActivity(Intent(this, MonthlyGoalsActivity::class.java))
         }
     }
 }

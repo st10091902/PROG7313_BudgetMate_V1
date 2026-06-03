@@ -70,6 +70,13 @@
             android:text="Savings Goals" />
 
         <Button
+            android:id="@+id/btnMonthlyGoals"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="12dp"
+            android:text="Monthly Min/Max Goals" />
+
+        <Button
             android:id="@+id/btnReports"
             android:layout_width="match_parent"
             android:layout_height="55dp"

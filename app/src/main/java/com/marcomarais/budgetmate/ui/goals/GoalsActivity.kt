@@ -10,6 +10,7 @@ import com.marcomarais.budgetmate.data.entities.Goal
 import com.marcomarais.budgetmate.repository.GoalRepository
 import com.marcomarais.budgetmate.viewmodel.GoalViewModel
 import com.marcomarais.budgetmate.viewmodel.GoalViewModelFactory
+import com.marcomarais.budgetmate.firebase.FirebaseService
 
 class GoalsActivity : AppCompatActivity() {
 
@@ -50,6 +51,7 @@ class GoalsActivity : AppCompatActivity() {
                     }
                 }
         }
+        val firebaseService = FirebaseService()
 
         addButton.setOnClickListener {
             val name = nameInput.text.toString().trim()
@@ -61,13 +63,14 @@ class GoalsActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            goalViewModel.insert(
-                Goal(
-                    name = name,
-                    targetAmount = target,
-                    currentAmount = current
-                )
+            val goal = Goal(
+                name = name,
+                targetAmount = target,
+                currentAmount = current
             )
+
+            goalViewModel.insert(goal)
+            firebaseService.uploadGoal(goal)
 
             nameInput.text.clear()
             targetInput.text.clear()

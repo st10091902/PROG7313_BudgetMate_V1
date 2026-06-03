@@ -17,7 +17,17 @@ import com.marcomarais.budgetmate.viewmodel.TransactionViewModel
 import com.marcomarais.budgetmate.viewmodel.TransactionViewModelFactory
 import android.app.Activity
 import android.content.Intent
+import android.app.TimePickerDialog
+import java.util.Calendar
+import android.Manifest
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import java.io.File
+import java.io.FileOutputStream
+import com.marcomarais.budgetmate.firebase.FirebaseService
 
 class AddTransactionActivity : AppCompatActivity() {
 
@@ -25,7 +35,8 @@ class AddTransactionActivity : AppCompatActivity() {
     private lateinit var categoryViewModel: CategoryViewModel
     private val TAG = "AddTransactionActivity"
     private var selectedImageUri: Uri? = null
-    private val PICK_IMAGE_REQUEST = 1
+    private val CAMERA_REQUEST_CODE = 100
+    private val CAMERA_PERMISSION_CODE = 101
 
     private var categoryList = listOf<Category>()
 
@@ -45,6 +56,7 @@ class AddTransactionActivity : AppCompatActivity() {
         categoryViewModel =
             ViewModelProvider(this, categoryFactory)[CategoryViewModel::class.java]
 
+        val firebaseService = FirebaseService()
         val amountInput = findViewById<EditText>(R.id.edtAmount)
         val descriptionInput = findViewById<EditText>(R.id.edtDescription)
         val typeSpinner = findViewById<Spinner>(R.id.spinnerType)
@@ -52,7 +64,13 @@ class AddTransactionActivity : AppCompatActivity() {
         val saveButton = findViewById<Button>(R.id.btnSaveTransaction)
         val backButton = findViewById<Button>(R.id.btnBackHome)
         val startTimeInput = findViewById<EditText>(R.id.edtStartTime)
+        startTimeInput.setOnClickListener {
+            showTimePicker(startTimeInput)
+        }
         val endTimeInput = findViewById<EditText>(R.id.edtEndTime)
+        endTimeInput.setOnClickListener {
+            showTimePicker(endTimeInput)
+        }
         val btnChoosePhoto = findViewById<Button>(R.id.btnChoosePhoto)
         val imgPhoto = findViewById<ImageView>(R.id.imgExpensePhoto)
 
@@ -76,9 +94,17 @@ class AddTransactionActivity : AppCompatActivity() {
         }
 
         btnChoosePhoto.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_CODE
+                )
+            } else {
+                openCamera()
+            }
         }
 
         saveButton.setOnClickListener {
@@ -123,6 +149,7 @@ class AddTransactionActivity : AppCompatActivity() {
             )
 
             transactionViewModel.insert(transaction)
+            firebaseService.uploadTransaction(transaction)
 
             Log.d(TAG, "Transaction saved: $transaction")
 
@@ -134,15 +161,78 @@ class AddTransactionActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    private fun openCamera() {
+        val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
+    }
+
+    private fun showTimePicker(targetInput: EditText) {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePicker = TimePickerDialog(
+            this,
+            { _, selectedHour, selectedMinute ->
+                val formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
+                targetInput.setText(formattedTime)
+            },
+            hour,
+            minute,
+            true
+        )
+
+        timePicker.show()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            selectedImageUri = data.data
-            val imgPhoto = findViewById<ImageView>(R.id.imgExpensePhoto)
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as? Bitmap
 
-            imgPhoto.setImageURI(selectedImageUri)
-            imgPhoto.visibility = ImageView.VISIBLE
+            if (imageBitmap != null) {
+                val imageUri = saveBitmapToInternalStorage(imageBitmap)
+
+                selectedImageUri = imageUri
+
+                val imgPhoto = findViewById<ImageView>(R.id.imgExpensePhoto)
+                imgPhoto.setImageBitmap(imageBitmap)
+                imgPhoto.visibility = ImageView.VISIBLE
+
+                Log.d(TAG, "Camera photo captured and saved: $selectedImageUri")
+            } else {
+                Toast.makeText(this, "Could not capture photo", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun saveBitmapToInternalStorage(bitmap: Bitmap): Uri {
+        val fileName = "expense_photo_${System.currentTimeMillis()}.jpg"
+        val file = File(filesDir, fileName)
+
+        val outputStream = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+
+        return Uri.fromFile(file)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera()
+            } else {
+                Toast.makeText(this, "Camera permission is required to take a photo", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

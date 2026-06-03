@@ -16,6 +16,8 @@ import com.marcomarais.budgetmate.viewmodel.TransactionViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import android.app.DatePickerDialog
+import java.util.Calendar
 
 class ExpenseListActivity : AppCompatActivity() {
 
@@ -30,7 +32,13 @@ class ExpenseListActivity : AppCompatActivity() {
         val expenseListText = findViewById<TextView>(R.id.txtExpenseList)
         val backButton = findViewById<Button>(R.id.btnBackHome)
         val startDateInput = findViewById<EditText>(R.id.edtStartDate)
+        startDateInput.setOnClickListener {
+            showDatePicker(startDateInput)
+        }
         val endDateInput = findViewById<EditText>(R.id.edtEndDate)
+        endDateInput.setOnClickListener {
+            showDatePicker(endDateInput)
+        }
         val filterButton = findViewById<Button>(R.id.btnFilter)
 
         val database = BudgetMateDatabase.getDatabase(this)
@@ -72,6 +80,33 @@ class ExpenseListActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             finish()
         }
+    }
+
+    private fun showDatePicker(targetInput: EditText) {
+        val calendar = Calendar.getInstance()
+
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePicker = DatePickerDialog(
+            this,
+            { _, selectedYear, selectedMonth, selectedDay ->
+                val formattedDate = String.format(
+                    "%02d/%02d/%04d",
+                    selectedDay,
+                    selectedMonth + 1,
+                    selectedYear
+                )
+
+                targetInput.setText(formattedDate)
+            },
+            year,
+            month,
+            day
+        )
+
+        datePicker.show()
     }
 
     private fun displayExpenses(expenses: List<Transaction>, expenseListText: TextView) {

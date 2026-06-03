@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "727790284663",
+    "project_id": "budgetmate-95e40",
+    "storage_bucket": "budgetmate-95e40.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727790284663:android:248a021a98b5240403bb72",
+        "android_client_info": {
+          "package_name": "com.marcomarais.budgetmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvhkmdBWU1i_WwOLtJfqISkp-7O8JzQyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

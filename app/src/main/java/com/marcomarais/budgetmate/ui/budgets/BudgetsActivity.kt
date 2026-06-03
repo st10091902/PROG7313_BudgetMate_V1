@@ -10,6 +10,7 @@ import com.marcomarais.budgetmate.data.entities.Category
 import com.marcomarais.budgetmate.repository.CategoryRepository
 import com.marcomarais.budgetmate.viewmodel.CategoryViewModel
 import com.marcomarais.budgetmate.viewmodel.CategoryViewModelFactory
+import com.marcomarais.budgetmate.firebase.FirebaseService
 
 class BudgetsActivity : AppCompatActivity() {
 
@@ -43,6 +44,7 @@ class BudgetsActivity : AppCompatActivity() {
                 }
             }
         }
+        val firebaseService = FirebaseService()
 
         addButton.setOnClickListener {
             val name = nameInput.text.toString().trim()
@@ -54,12 +56,13 @@ class BudgetsActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            categoryViewModel.insert(
-                Category(
-                    name = name,
-                    budgetAmount = amount
-                )
+            val category = Category(
+                name = name,
+                budgetAmount = amount
             )
+
+            categoryViewModel.insert(category)
+            firebaseService.uploadCategory(category)
 
             nameInput.text.clear()
             amountInput.text.clear()
